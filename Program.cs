@@ -1,34 +1,18 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using StarRailTracker.Model;
+using StarRailTracker.Service;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 Console.WriteLine("=== 星鐵抽卡追蹤器 ===");
 
-HttpClient client = new();
-var dejson_options = new JsonSerializerOptions
-{
-    PropertyNameCaseInsensitive = true, // 忽略大小寫
-    NumberHandling = JsonNumberHandling.AllowReadingFromString// 允許將JSON string轉換成int/bool
-};
+Console.WriteLine("\n輸入URL: ");
 string url = Console.ReadLine();
 
 try
 {
-    string json_result = await client.GetStringAsync(url);
-    GachaResponse gachaResponse = JsonSerializer.Deserialize<GachaResponse>(json_result, dejson_options);//json decode
-    List<GachaLog> gachaLogs = gachaResponse.Data.List;//取得抽卡紀錄
-
-    var Warps = gachaLogs.DistinctBy(x => x.Id).ToList();
-    Warps = Warps.OrderByDescending(x => x.Time).ToList();
-
-    Console.WriteLine($"總抽卡數量: {Warps.Count}");
-    Console.WriteLine("=== 抽卡紀錄 ===");
-    foreach ( GachaLog log in Warps)
-    {
-        Console.WriteLine($"名稱: {log.Name}, {log.RankType}★ {log.ItemType}");
-    }
+    List<GachaLog> gachaLogs = await GachaHistoryService.GetGachaHistory(url);//取得抽卡紀錄
 }
 catch (Exception ex)
 {
