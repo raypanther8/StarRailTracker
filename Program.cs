@@ -17,8 +17,8 @@ string url = Console.ReadLine();
 try
 {
     string json_result = await client.GetStringAsync(url);
-    GachaResponse gachaResponse = JsonSerializer.Deserialize<GachaResponse>(json_result, dejson_options);
-    List<GachaLog> gachaLogs = gachaResponse.Data.List;
+    GachaResponse gachaResponse = JsonSerializer.Deserialize<GachaResponse>(json_result, dejson_options);//json decode
+    List<GachaLog> gachaLogs = gachaResponse.Data.List;//取得抽卡紀錄
 
     var Warps = gachaLogs.DistinctBy(x => x.Id).ToList();
     Warps = Warps.OrderByDescending(x => x.Time).ToList();
