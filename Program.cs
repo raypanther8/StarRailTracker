@@ -13,6 +13,11 @@ string url = Console.ReadLine();
 try
 {
     List<GachaLog> gachaLogs = await GachaHistoryService.GetGachaHistory(url);//取得抽卡紀錄
+    Console.WriteLine($"\n總共取得 {gachaLogs.Count} 筆抽卡紀錄。");
+    foreach (var gachaLog in gachaLogs)
+    {
+        Console.WriteLine($"{gachaLog.GachaType}：[{gachaLog.Time}] {gachaLog.Name} ({gachaLog.ItemType}) - {gachaLog.RankType}★");
+    }
 }
 catch (Exception ex)
 {

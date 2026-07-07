@@ -15,9 +15,11 @@ namespace StarRailTracker.Service
         }
         static public List<Model.GachaLog> FinishingProcess(List<Model.GachaLog> gachaLogs)
         {
+            //去重、排序
             var Warps = gachaLogs.DistinctBy(x => x.Id).ToList();
-            Warps = Warps.OrderByDescending(x => x.Id.Length)
-                .ThenByDescending(x => x.Id)
+            Warps = Warps.OrderBy(x => x.GachaType)
+                .ThenBy(x => x.Id.Length)
+                .ThenBy(x => x.Id)
                 .ToList();
             return Warps;
         }
