@@ -6,11 +6,13 @@ using System.Net.Http;
 using System.Numerics;
 using System.Text;
 using System.Text.Encodings.Web;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace StarRailTracker.Service
 {
+    [JsonSerializable(typeof(GachaLog))]
     static internal class GachaHistoryService
     {
         static public async Task<List<Model.GachaLog>> GetGachaHistory(string url)
@@ -20,7 +22,8 @@ namespace StarRailTracker.Service
             var dejsonOptions = new System.Text.Json.JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true, // 忽略大小寫
-                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString// 允許將JSON string轉換成int/bool
+                NumberHandling = JsonNumberHandling.AllowReadingFromString,// 允許將JSON string轉換成int/bool
+                TypeInfoResolver = AppJsonContext.Default
             };
 
             const int pageSize = 100;//每頁筆數
@@ -85,7 +88,8 @@ namespace StarRailTracker.Service
                 var jsonOptions = new System.Text.Json.JsonSerializerOptions
                 {
                     WriteIndented = true, // 美化輸出
-                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // 避免中文被轉義
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, // 避免中文被轉義
+                    TypeInfoResolver = AppJsonContext.Default
                 };
 
                 List<GachaLog> gachas;//後面會用到的，每次UID重置
@@ -99,7 +103,11 @@ namespace StarRailTracker.Service
                     filePath = @$"Warp History/{uid}/{date}.json";
                     gachas = gachaLogs.Where(log => log.Uid == uid).ToList();
                     jsonString = System.Text.Json.JsonSerializer.Serialize(gachas, jsonOptions);
-                    //File.WriteAllText(filePath, jsonString); // 寫入檔案，之後再加回來
+                    if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+                    }
+                    File.WriteAllText(filePath, jsonString); // 寫入檔案，發布的時候再加回來
                     Console.WriteLine($"已將UID {uid,-9} 的抽卡紀錄輸出為JSON檔案");
                 }
 
