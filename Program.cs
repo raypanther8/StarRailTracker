@@ -14,10 +14,13 @@ try
 {
     List<GachaLog> gachaLogs = await GachaHistoryService.GetGachaHistory(url);//取得抽卡紀錄
     Console.WriteLine($"\n總共取得 {gachaLogs.Count} 筆抽卡紀錄。");
+    /* 輸出全結果
     foreach (var gachaLog in gachaLogs)
     {
         Console.WriteLine($"{gachaLog.GachaType}：[{gachaLog.Time}] {gachaLog.Name} ({gachaLog.ItemType}) - {gachaLog.RankType}★");
-    }
+    }*/
+    // 儲存結果到JSON檔案
+    GachaHistoryService.OutputJson(gachaLogs);
 }
 catch (Exception ex)
 {

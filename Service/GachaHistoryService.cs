@@ -1,12 +1,13 @@
-﻿using System;
+﻿using StarRailTracker.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Numerics;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Web;
-using System.Net.Http;
-using StarRailTracker.Model;
 
 namespace StarRailTracker.Service
 {
@@ -33,7 +34,7 @@ namespace StarRailTracker.Service
             foreach (int gachaType in gachaTypes)
             {
                 bool hasMore = true;
-                Console.WriteLine($"正在獲取抽卡紀錄，抽卡類型：{gachaType} {gachaType.ToString()}"); // Log the current gacha type being processed
+                Console.WriteLine($"正在獲取抽卡紀錄，抽卡類型：{gachaType}"); // Log the current gacha type being processed
                 queryParams.Set("gacha_type", gachaType.ToString());
                 queryParams.Set("size", pageSize.ToString());
                 queryParams.Set("end_id", "0");
@@ -48,7 +49,6 @@ namespace StarRailTracker.Service
 
                     if (gachaResponse.Retcode != 0)//是否有更多資料
                     {
-                        Console.WriteLine($"獲取失敗，請檢察URL是否有問題"); // Log the error message
                         hasMore = false; // 沒有更多資料
                         continue;
                     }
@@ -77,6 +77,39 @@ namespace StarRailTracker.Service
             return gachaLogs;*/
             AllGachaLogs =  GachaProcess.FinishingProcess(AllGachaLogs);
             return AllGachaLogs;
+        }
+        static public bool OutputJson(List<Model.GachaLog> gachaLogs)
+        {
+            try
+            {
+                var jsonOptions = new System.Text.Json.JsonSerializerOptions
+                {
+                    WriteIndented = true, // 美化輸出
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping // 避免中文被轉義
+                };
+
+                List<GachaLog> gachas;//後面會用到的，每次UID重置
+                string filePath;
+                string date = DateTime.Now.ToString("yyyy-MM-dd");
+                string jsonString;
+                List<int> uids = gachaLogs.Select(log => log.Uid).Distinct().ToList();
+
+                foreach (var uid in uids)
+                {
+                    filePath = @$"Warp History/{uid}/{date}.json";
+                    gachas = gachaLogs.Where(log => log.Uid == uid).ToList();
+                    jsonString = System.Text.Json.JsonSerializer.Serialize(gachas, jsonOptions);
+                    //File.WriteAllText(filePath, jsonString); // 寫入檔案，之後再加回來
+                    Console.WriteLine($"已將UID {uid,-9} 的抽卡紀錄輸出為JSON檔案");
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"輸出抽卡紀錄為JSON檔案時發生錯誤: {ex.Message}");
+                return false;
+            }
         }
     }
 }

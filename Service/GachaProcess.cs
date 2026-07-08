@@ -17,7 +17,8 @@ namespace StarRailTracker.Service
         {
             //去重、排序
             var Warps = gachaLogs.DistinctBy(x => x.Id).ToList();
-            Warps = Warps.OrderBy(x => x.GachaType)
+            Warps = Warps.DistinctBy(x => x.Id)
+                .OrderBy(x => x.GachaType)
                 .ThenBy(x => x.Id.Length)
                 .ThenBy(x => x.Id)
                 .ToList();
