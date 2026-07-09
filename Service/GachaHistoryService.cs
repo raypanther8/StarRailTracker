@@ -29,7 +29,7 @@ namespace StarRailTracker.Service
             const int pageSize = 100;//每頁筆數
             //Fate卡池找不到資料尚未支援
             int[] gachaTypes = [1, 2, 11, 12];//抽卡類型：常駐、新手、限定角色、限定光錐
-            string endId = "0";//結束id
+            string endId;//結束id
             UriBuilder builder = new(url);
             var queryParams = HttpUtility.ParseQueryString(builder.Query);
 
@@ -48,7 +48,7 @@ namespace StarRailTracker.Service
                     await Task.Delay(200); // 延遲1秒，避免過於頻繁的請求
                     string requestUrl = builder.ToString();
                     string jsonResult = await client.GetStringAsync(requestUrl);
-                    Model.GachaResponse gachaResponse = System.Text.Json.JsonSerializer.Deserialize<Model.GachaResponse>(jsonResult, dejsonOptions);//json decode
+                    GachaResponse gachaResponse = System.Text.Json.JsonSerializer.Deserialize<GachaResponse>(jsonResult, dejsonOptions);//json decode
 
                     if (gachaResponse.Retcode != 0)//是否有更多資料
                     {

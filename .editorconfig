@@ -5,3 +5,6 @@ dotnet_diagnostic.CS8600.severity = none
 
 # CS8602: 可能 null 參考的取值 (dereference)。
 dotnet_diagnostic.CS8602.severity = none
+
+# IDE0305: 簡化集合初始化
+dotnet_diagnostic.IDE0305.severity = none

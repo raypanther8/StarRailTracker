@@ -14,13 +14,26 @@ try
 {
     List<GachaLog> gachaLogs = await GachaHistoryService.GetGachaHistory(url);//取得抽卡紀錄
     Console.WriteLine($"\n總共取得 {gachaLogs.Count} 筆抽卡紀錄。");
-    /* 輸出全結果
-    foreach (var gachaLog in gachaLogs)
+
+    GachaHistoryService.OutputJson(gachaLogs); // 儲存結果到JSON檔案
+
+    List<StatisticDataList> statistics = Statistics.GetTotalStatisticData(gachaLogs);
+    foreach (var stat in statistics)
     {
-        Console.WriteLine($"{gachaLog.GachaType}：[{gachaLog.Time}] {gachaLog.Name} ({gachaLog.ItemType}) - {gachaLog.RankType}★");
-    }*/
-    // 儲存結果到JSON檔案
-    GachaHistoryService.OutputJson(gachaLogs);
+        Console.WriteLine($"\n====== {stat.GachaTypeName} ======");
+        foreach (var data in stat.Data)
+        {
+            if (data.Name == "已墊抽數")
+            {
+                Console.WriteLine($"{data.Rank} 星已墊抽數：{data.PullsSinceLastRank, -2}");
+                continue;
+            }
+            else if (data.Rank == 5)
+            {
+                Console.WriteLine($"{data.Rank}星，{data.Name}，花費 {data.PullsSinceLastRank, -2} 抽");
+            }
+        }
+    }
 }
 catch (Exception ex)
 {
