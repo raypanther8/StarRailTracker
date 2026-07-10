@@ -35,7 +35,8 @@ namespace StarRailTracker.Service
                     {
                         Name = name,
                         Rank = rank,
-                        PullsSinceLastRank = pullsSinceLastRank
+                        PullsSinceLastRank = pullsSinceLastRank,
+                        Id = log.Id
                     });
 
                     pullsSinceLastRank = 0; //重置計數器，因為已經抽到指定的稀有度
@@ -46,12 +47,13 @@ namespace StarRailTracker.Service
             {
                 Name = "已墊抽數",
                 Rank = rank,
-                PullsSinceLastRank = pullsSinceLastRank
+                PullsSinceLastRank = pullsSinceLastRank,
+                Id = "9999999999999999999"
             });
 
             return statistics;
         }
-        public static List<StatisticDataList> GetTotalStatisticData(List<GachaLog> gachaLogs)
+        public static List<StatisticDataList> GetTotalStatistics(List<GachaLog> gachaLogs)
         {
             List<StatisticDataList> totalStatistics = new();
             int[] gachaTypes = [1, 2, 11, 12]; //所有抽卡類型
@@ -66,7 +68,7 @@ namespace StarRailTracker.Service
                 totalStatistics.Add(new StatisticDataList
                 {
                     GachaType = gachaType,
-                    Data = statisticsForGachaType
+                    Data = statisticsForGachaType.OrderBy(x => x.Id.Length).ThenBy(x => x.Id).ThenBy(x => x.Rank).ToList()
                 });
                 statisticsForGachaType = new();
             }

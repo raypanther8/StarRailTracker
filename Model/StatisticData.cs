@@ -11,10 +11,11 @@ namespace StarRailTracker.Model
         public string Name { get; set; }
         public int Rank { get; set; }
         public int PullsSinceLastRank { get; set; }
+        public string Id { get; set; }
     }
     public struct StatisticDataList
     {
-        public int GachaType { private get; set; }
+        public int GachaType { get; set; }
         public readonly string GachaTypeName
         {
             get
