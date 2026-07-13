@@ -12,7 +12,7 @@ namespace StarRailTracker.Service
     {
         static private readonly List<string> userModesForDisplay = [
             "0:結束程式",
-            "1:透過URL匯入抽卡紀錄，並輸出Json檔案",
+            "1:透過URL匯入抽卡紀錄",
             "2:透過Json檔案輸入過往紀錄",
             "3:分析並查詢過往紀錄",
             "4:彙整所有抽卡紀錄為單一檔案"

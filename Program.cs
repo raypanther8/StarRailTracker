@@ -35,7 +35,11 @@ try
                 gachaLogs = GachaProcess.FinishingProcess(gachaLogs);
                 Console.WriteLine($"總共新增 {gachaLogs.Count - formerGachaLogsCount} 筆抽卡紀錄。");
 
-                GachaHistoryService.OutputJson(tempGachaLogs); // 儲存此次取得的結果到JSON檔案
+                Console.WriteLine("是否要將此次取得的結果輸出為Json檔案？(Y/N)");
+                if (Console.ReadLine().Trim().ToUpper() == "Y")
+                {
+                    GachaHistoryService.OutputJson(tempGachaLogs); // 儲存此次取得的結果到JSON檔案
+                }
                 break;
 
             case "2"://讀取Json紀錄
