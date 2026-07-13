@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace StarRailTracker.Service
 {
@@ -29,6 +30,7 @@ namespace StarRailTracker.Service
             "11:角色卡池",
             "12:光錐卡池"
             ];
+        
         static public string ChooseFunction()//初始功能列表
         {
             string function;
@@ -47,6 +49,20 @@ namespace StarRailTracker.Service
             return function;
         }
 
+        static public List<GachaLog> InputFromJson()
+        {
+            Console.WriteLine("======輸入Json檔案======");
+            Console.WriteLine("請先將檔案放置於Warp History資料夾中");
+            Console.WriteLine("請輸入檔案相對路徑(須為Json檔案)");
+            Console.WriteLine("範例：若在Warp History/A資料夾/B資料夾/example.json，請輸入：A資料夾/B資料夾/example");
+            Console.WriteLine("請輸入檔案位置：");
+            string filePath = @$"Warp History/{Console.ReadLine()}.json";
+
+            List<GachaLog> gachaLogs =  GachaHistoryService.GetGachaHistoryFromJson(filePath);//已將檔案路徑不存在的情況處理在其中
+
+            return gachaLogs;
+        }
+
         //搜尋紀錄功能執行(需input記錄檔)，獨立執行
         static public void ChooseHistoryFuction(List<StatisticDataList> statistics)
         {
@@ -59,6 +75,9 @@ namespace StarRailTracker.Service
 
             Console.WriteLine("請輸入欲查詢的類型：");
             string choice1 = Console.ReadLine();
+
+            Console.WriteLine("---------------");
+
             switch (choice1)
             {
                 case "1"://全卡池五星
@@ -101,8 +120,11 @@ namespace StarRailTracker.Service
                     Console.WriteLine("======可查詢的卡池類別======");
                     foreach (string gachaTypeForDisplay in gachaTypesForDisplay) { Console.WriteLine(gachaTypeForDisplay); }
                     Console.WriteLine("輸入欲查詢的卡池類別：");
-                    targetGachaType = int.Parse(Console.ReadLine());
-                    
+                    if (!int.TryParse(Console.ReadLine(), out targetGachaType))
+                    {
+                        targetGachaType = -1;
+                    }
+
                     if (gachaTypes.Contains(targetGachaType)){
                         tempStatistics = statistics.First(x => x.GachaType == targetGachaType);
                         foreach (StatisticData statisticData in tempStatistics.Data)
@@ -128,7 +150,11 @@ namespace StarRailTracker.Service
                     Console.WriteLine("輸入欲查詢的卡池類別：");
                     targetGachaType = int.Parse(Console.ReadLine());
                     Console.WriteLine("輸入欲查詢的星級(4/5)：");
-                    targetRank = int.Parse(Console.ReadLine());
+                    if (!int.TryParse(Console.ReadLine(), out targetRank))
+                    {
+                        targetRank = -1;
+                    }
+
 
                     if (gachaTypes.Contains(targetGachaType) && targetRank == 4 || targetRank == 5)
                     {
