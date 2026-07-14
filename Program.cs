@@ -71,7 +71,7 @@ try
                 }
                 tempGachaLogs = gachaLogs.Where(log => log.Uid == tempUid).ToList();
 
-                statistics = Statistics.GetTotalStatistics(gachaLogs);//轉換為統計結果
+                statistics = Statistics.GetTotalStatistics(tempGachaLogs);//轉換為統計結果
                 DisplayService.ChooseHistoryFuction(statistics);
                 break;
 
