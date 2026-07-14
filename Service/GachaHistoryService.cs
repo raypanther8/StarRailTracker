@@ -135,7 +135,7 @@ namespace StarRailTracker.Service
                         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                     }
                     File.WriteAllText(filePath, jsonString); // 寫入檔案，發布的時候再加回來
-                    Console.WriteLine($"已將UID {uid,-9} 的抽卡紀錄輸出為JSON檔案");
+                    Console.WriteLine($"已將UID {uid,-9} 的抽卡紀錄輸出為{date}.json");
                 }
 
                 return true;
