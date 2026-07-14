@@ -12,7 +12,7 @@ namespace StarRailTracker.Service
     {
         static private readonly List<string> userModesForDisplay = [
             "0:結束程式",
-            "1:透過URL匯入抽卡紀錄",
+            "1:透過URL自動匯入抽卡紀錄 (請先確認有在24小時內於遊戲中開啟過歷史紀錄)",
             "2:透過Json檔案輸入過往紀錄",
             "3:分析並查詢過往紀錄",
             "4:彙整所有抽卡紀錄為單一檔案"
@@ -49,7 +49,7 @@ namespace StarRailTracker.Service
             return function;
         }
 
-        static public List<GachaLog> InputFromJson()
+        static public List<GachaLog> InputFromJson()//取得來自Json的紀錄
         {
             Console.WriteLine("======輸入Json檔案======");
             Console.WriteLine("請先將檔案放置於Warp History資料夾中");
@@ -73,10 +73,11 @@ namespace StarRailTracker.Service
             Console.WriteLine("======可查詢的類型======");
             foreach (string historyFunctionMode in historyFunctionModes){Console.WriteLine(historyFunctionMode);}
 
+            Console.WriteLine();
             Console.WriteLine("請輸入欲查詢的類型：");
             string choice1 = Console.ReadLine();
 
-            Console.WriteLine("---------------");
+            Console.WriteLine();
 
             switch (choice1)
             {
@@ -125,6 +126,8 @@ namespace StarRailTracker.Service
                         targetGachaType = -1;
                     }
 
+                    Console.WriteLine();
+
                     if (gachaTypes.Contains(targetGachaType)){
                         tempStatistics = statistics.First(x => x.GachaType == targetGachaType);
                         foreach (StatisticData statisticData in tempStatistics.Data)
@@ -155,6 +158,7 @@ namespace StarRailTracker.Service
                         targetRank = -1;
                     }
 
+                    Console.WriteLine();
 
                     if (gachaTypes.Contains(targetGachaType) && targetRank == 4 || targetRank == 5)
                     {

@@ -40,6 +40,7 @@ namespace StarRailTracker.Service
                 {
                     bool hasMore = true;
                     Console.WriteLine($"正在獲取抽卡紀錄，抽卡類型：{gachaType}"); // Log the current gacha type being processed
+
                     queryParams.Set("gacha_type", gachaType.ToString());
                     queryParams.Set("size", pageSize.ToString());
                     queryParams.Set("end_id", "0");
