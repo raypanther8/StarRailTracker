@@ -120,6 +120,7 @@ namespace StarRailTracker.Service
                 };
 
                 List<GachaLog> gachas;//後面會用到的，每次UID重置
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
                 string filePath;
                 string date = DateTime.Now.ToString("yyyy-MM-dd");
                 string jsonString;
@@ -127,7 +128,8 @@ namespace StarRailTracker.Service
 
                 foreach (var uid in uids)
                 {
-                    filePath = @$"Warp History/{uid}/{date}.json";
+                    //filePath = @$"./Warp History/{uid}/{date}.json";
+                    filePath = Path.Combine(baseDir, "Warp History", $"{uid}", $"{date}.json");
                     gachas = gachaLogs.Where(log => log.Uid == uid).ToList();
                     jsonString = System.Text.Json.JsonSerializer.Serialize(gachas, jsonOptions);
                     if (!Directory.Exists(Path.GetDirectoryName(filePath)))

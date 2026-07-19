@@ -51,12 +51,15 @@ namespace StarRailTracker.Service
 
         static public List<GachaLog> InputFromJson()//取得來自Json的紀錄
         {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+
             Console.WriteLine("======輸入Json檔案======");
             Console.WriteLine("請先將檔案放置於Warp History資料夾中");
             Console.WriteLine("請輸入檔案相對路徑(須為Json檔案)");
             Console.WriteLine("範例：若在Warp History/A資料夾/B資料夾/example.json，請輸入：A資料夾/B資料夾/example");
             Console.WriteLine("請輸入檔案位置：");
-            string filePath = @$"Warp History/{Console.ReadLine()}.json";
+            //string filePath = @$"Warp History/{Console.ReadLine()}.json";
+            string filePath = Path.Combine(baseDir, "Warp History", $"{Console.ReadLine()}.json");
 
             List<GachaLog> gachaLogs =  GachaHistoryService.GetGachaHistoryFromJson(filePath);//已將檔案路徑不存在的情況處理在其中
 
