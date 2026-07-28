@@ -54,4 +54,4 @@ StarRailWarpTracker/
 * 提供基礎躍遷統計與分析功能。
 
 ## 📄 授權條款 (License)
-本專案採用 [MIT License](https://opensource.org/license/mit) 授權發布。
+本專案採用 [MIT License](LICENSE) 授權發布。
