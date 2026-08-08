@@ -23,12 +23,14 @@ namespace StarRailTracker.Service
             "3:單一卡池 四、五星(不建議用，因為資料會很多)",
             "4:單一卡池 單一星級"
             ];
-        static private readonly List<int> gachaTypes = [1, 2, 11, 12];
+        static private readonly List<int> gachaTypes = [1, 2, 11, 12, 21, 22];
         static private readonly List<string> gachaTypesForDisplay = [
             "1:常駐卡池",
             "2:新手卡池",
             "11:角色卡池",
-            "12:光錐卡池"
+            "12:光錐卡池",
+            "21:Fate連動角色卡池",
+            "22:Fate連動光錐卡池"
             ];
         
         static public string ChooseFunction()//初始功能列表

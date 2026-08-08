@@ -30,7 +30,8 @@ namespace StarRailTracker.Service
 
                 const int pageSize = 100;//每頁筆數
                                          //Fate卡池找不到資料尚未支援
-                int[] gachaTypes = [1, 2, 11, 12];//抽卡類型：常駐、新手、限定角色、限定光錐
+                //抽卡類型：常駐、新手、限定角色、限定光錐、Fate角色、Fate光錐
+                int[] gachaTypes = [1, 2, 11, 12, 21, 22];
                 string endId;//結束id
                 UriBuilder builder = new(url);
                 var queryParams = HttpUtility.ParseQueryString(builder.Query);

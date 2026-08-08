@@ -105,7 +105,7 @@ namespace StarRailTracker.Service
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 // 處理檔案讀取或解析期間的異常
             }
