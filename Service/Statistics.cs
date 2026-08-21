@@ -56,7 +56,7 @@ namespace StarRailTracker.Service
         public static List<StatisticDataList> GetTotalStatistics(List<GachaLog> gachaLogs)
         {
             List<StatisticDataList> totalStatistics = new();
-            int[] gachaTypes = [1, 2, 11, 12]; //所有抽卡類型
+            int[] gachaTypes = [1, 2, 11, 12, 21, 22]; //所有抽卡類型
 
             List<StatisticData> statisticsForGachaType = new();
             foreach (int gachaType in gachaTypes)
