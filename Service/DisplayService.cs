@@ -165,7 +165,7 @@ namespace StarRailTracker.Service
 
                     Console.WriteLine();
 
-                    if (gachaTypes.Contains(targetGachaType) && targetRank == 4 || targetRank == 5)
+                    if (gachaTypes.Contains(targetGachaType) && (targetRank == 4 || targetRank == 5))
                     {
                         tempStatistics = statistics.First(x => x.GachaType == targetGachaType);
                         foreach (StatisticData statisticData in tempStatistics.Data.Where(x => x.Rank == targetRank))
