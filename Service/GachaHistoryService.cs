@@ -37,7 +37,7 @@ namespace StarRailTracker.Service
                 var queryParams = HttpUtility.ParseQueryString(builder.Query);
 
 
-                foreach (int gachaType in gachaTypes)
+                foreach (int gachaType in Contents.GachaTypes.Keys)
                 {
                     bool hasMore = true;
                     Console.WriteLine($"正在獲取抽卡紀錄，抽卡類型：{gachaType}"); // Log the current gacha type being processed
