@@ -46,12 +46,5 @@ StarRailWarpTracker/
         └── 2026-07-28.json
 ```
 
-## 📜 版本紀錄 (Version History)
-### v1.0.0 (Initial Release)
-* 首次發布！
-* 支援自動抓取遊戲躍遷紀錄。
-* 支援 JSON 檔案之匯入與匯出備份。
-* 提供基礎躍遷統計與分析功能。
-
 ## 📄 授權條款 (License)
 本專案採用 [MIT License](LICENSE) 授權發布。
