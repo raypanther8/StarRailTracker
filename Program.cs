@@ -9,11 +9,12 @@ List<GachaLog> gachaLogs = [];
 List<GachaLog> tempGachaLogs = [];
 List<StatisticDataList> statistics = [];
 List<string> urls = [];
+List<int> uids = [];
 
 int formerGachaLogsCount;
 int tempUid;
 
-Console.WriteLine("=== 星鐵抽卡追蹤器 ===");
+Console.WriteLine("======== 星鐵抽卡追蹤器 ========");
 
 string userMode = DisplayService.ChooseFunction();
 
@@ -24,7 +25,7 @@ try
         switch (userMode)
         {
             case "1"://透過URL輸入紀錄
-                Console.WriteLine("======[提示] 整個過程約持續1~2分鐘======");
+                Console.WriteLine("====== [提示] 整個過程約持續1~2分鐘 ======");
                 urls = WarpUrlExtractor.GetWarpUrls().Result;
                 formerGachaLogsCount = gachaLogs.Count;
                 /*
@@ -64,15 +65,40 @@ try
 
             case "3"://分析抽卡
 
-                Console.WriteLine($"請輸入欲查詢的帳號UID");//確定單一UID
-                if (!int.TryParse(Console.ReadLine(), out tempUid))
+                if (gachaLogs.Count == 0)
                 {
-                    tempUid = -1;
+                    Console.WriteLine("目前沒有任何抽卡紀錄，請先使用功能1或2取得抽卡紀錄。");
+                    break;
                 }
-                tempGachaLogs = gachaLogs.Where(log => log.Uid == tempUid).ToList();
+                else
+                {
+                    uids = gachaLogs.Select(log => log.Uid).Distinct().ToList();
+                    Console.WriteLine("====== 可查詢的UID ======");
+                    foreach (var uid in uids)
+                    {
+                        Console.WriteLine(uid);
+                    }
 
-                statistics = Statistics.GetTotalStatistics(tempGachaLogs);//轉換為統計結果
-                DisplayService.ChooseHistoryFuction(statistics);
+                    Console.WriteLine();
+                    Console.WriteLine($"請輸入欲查詢的帳號UID");//確定單一UID
+
+                    if (!int.TryParse(Console.ReadLine(), out tempUid))
+                    {
+                        tempUid = -1;
+                    }
+
+                    if (uids.Contains(tempUid))
+                    {
+                        tempGachaLogs = gachaLogs.Where(log => log.Uid == tempUid).ToList();
+
+                        statistics = Statistics.GetTotalStatistics(tempGachaLogs);//轉換為統計結果
+                        DisplayService.ChooseHistoryFuction(statistics);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"查無此UID: {tempUid}");
+                    }
+                }
                 break;
 
             case "4"://彙整檔案為單一Json
@@ -96,6 +122,8 @@ try
         Console.WriteLine("\n按任意鍵繼續...");
         Console.ReadKey();
         Console.Clear();
+
+        Console.WriteLine("=== 星鐵抽卡追蹤器 ===");
         userMode = DisplayService.ChooseFunction();
     }
 }

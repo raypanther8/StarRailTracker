@@ -20,16 +20,7 @@ namespace StarRailTracker.Model
         {
             get
             {
-                return GachaType switch
-                {
-                    1 => "常駐",
-                    2 => "新手",
-                    11 => "限定角色",
-                    12 => "限定光錐",
-                    21 => "Fate聯動角色",
-                    22 => "Fate聯動光錐",
-                    _ => "未知類型"
-                };
+                return Contents.GachaTypes.TryGetValue(GachaType, out string name) ? name : Contents.unknownGachaType;
             }
         }
         public List<StatisticData> Data { get; set; }
